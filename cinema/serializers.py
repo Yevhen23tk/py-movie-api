@@ -8,8 +8,8 @@ class MovieSerializer(serializers.Serializer):
     description = serializers.CharField(required=False)
     duration = serializers.IntegerField(required=False)
 
-    def create(self, validate_date):
-        return Movie.objects.create(**validate_date)
+    def create(self, validated_date):
+        return Movie.objects.create(**validated_date)
 
     def update(self, instance, validated_date):
         instance.title = validated_date.get(

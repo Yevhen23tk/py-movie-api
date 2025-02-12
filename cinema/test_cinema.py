@@ -20,19 +20,19 @@ class MovieAPITestCase(APITestCase):
             "cinema:movie-details", kwargs={"pk": pk}
         )
 
-    def test_list_movies(self):
+    def test_list_movies_returns_all_movies(self):
         response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)  # movie1 and movie2
         self.assertEqual(response.data[0]["title"], self.movie1.title)
 
-    def test_retrieve_movie(self):
+    def test_retrieve_movie_returns_correct_movie(self):
         response = self.client.get(self.detail_url(self.movie1.id))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["title"], "Movie 1")
         self.assertEqual(response.data["duration"], 100)
 
-    def test_create_movie(self):
+    def test_create_movie_creates_new_movie(self):
         data = {
             "title": "New Movie",
             "description": "Brand new description",
@@ -45,7 +45,7 @@ class MovieAPITestCase(APITestCase):
         )
         self.assertEqual(response.data["title"], "New Movie")
 
-    def test_update_movie(self):
+    def test_update_movie_updates_existing_movie(self):
         update_data = {
             "title": "Updated Title",
             "description": "Updated Description",
@@ -61,7 +61,7 @@ class MovieAPITestCase(APITestCase):
         self.assertEqual(self.movie1.description, "Updated Description")
         self.assertEqual(self.movie1.duration, 200)
 
-    def test_delete_movie(self):
+    def test_delete_movie_removes_movie(self):
         response = self.client.delete(self.detail_url(self.movie1.id))
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
